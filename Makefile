@@ -15,5 +15,4 @@ $(OBJ_DIR)%.o : %.c
 	$(CC) $(CFLAGS)  -pthread -c $< -o $@
 
 fclean:
-	rm -rf $(OBJS)
 	rm -rf $(OBJ_DIR)
