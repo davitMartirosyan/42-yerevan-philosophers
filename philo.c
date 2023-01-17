@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:09:08 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/16 18:55:52 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:40:03 by tumolabs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int main(int ac, char **av)
 {
-    
+
 }
 
 
-
+                                                              // EXAMPLES:
 //av[0] = : ./a.out
-//av[1] = : number_of_philosopher
-//av[2] = : time_to_die
-//av[3] = : time_to_eat
-//av[4] = : time_to_sleep    
-//av[5] = : [number_of_times_each_philosopher_must_eat]
+//av[1] = : number_of_philosopher                            1        5      5      4     4
+//av[2] = : time_to_die                                      800      800    800    410   310
+//av[3] = : time_to_eat                                      200      200    200    200   200
+//av[4] = : time_to_sleep                                    200      200    200    200   100
+//av[5] = : [number_of_times_each_philosopher_must_eat]                      7        
 
 /*
 Example:
