@@ -1,0 +1,17 @@
+	// int	*vector;
+	// int	i;
+	
+	// vector = malloc(sizeof(int) * (n_args + 1));
+	// if (!vector)
+	// 	return (NULL);
+	// i = -1;
+	// while(++i < n_args)
+	// 	vector[i] = atoint()
+  
+
+//av[0] = : ./a.out
+//av[1] = : number_of_philosopher                            1        5      5      4     4
+//av[2] = : time_to_die                                      800      800    800    410   310
+//av[3] = : time_to_eat                                      200      200    200    200   200
+//av[4] = : time_to_sleep                                    200      200    200    200   100
+//av[5] = : "[number_of_times_each_philosopher_must_eat]                     7        

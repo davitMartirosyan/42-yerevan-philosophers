@@ -6,33 +6,44 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:09:08 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/17 07:40:03 by tumolabs         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:50:05 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
+	int				*args;
+	int				n_args;
+	t_thread_table	*philos;
 
+	(void)args;
+	n_args = collect(ac);
+	if (n_args == ARGUMENT_ERROR)
+	{
+		printf("error\n");
+		return (1);
+	}
+	philos = create_philos_table(ac, av);
+	if (philos)
+		create_threads();
+	else
+		return (-1);
 }
 
+t_thread_table	*create_philos_table(int ac, char **av)
+{
+	t_thread_table	*philos;
 
-                                                              // EXAMPLES:
-//av[0] = : ./a.out
-//av[1] = : number_of_philosopher                            1        5      5      4     4
-//av[2] = : time_to_die                                      800      800    800    410   310
-//av[3] = : time_to_eat                                      200      200    200    200   200
-//av[4] = : time_to_sleep                                    200      200    200    200   100
-//av[5] = : [number_of_times_each_philosopher_must_eat]                      7        
-
-/*
-Example:
-
-    [timestamp_in_ms] Philosopher {X} has taken a fork
-    [timestamp_in_ms] Philosopher {X} is eating
-    [timestamp_in_ms] Philosopher {X} is sleeping
-    [timestamp_in_ms] Philosopher {X} is thinking
-    [timestamp_in_ms] Philosopher {X} died
-
-*/
+	philos = (t_thread_table *)malloc(sizeof(t_thread_table));
+	if (!philos)
+		return (NULL);
+	philos->n_args = collect(ac);
+	philos->vector = push_back(philos->n_args, av);
+	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
+		philos->optional_argument = philos->vector[philos->n_args - 1];
+	else
+		philos->optional_argument = -1;
+	return (philos);
+}

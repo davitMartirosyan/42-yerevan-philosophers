@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/16 18:55:40 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:50:34 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,26 @@
 
 # include <stdio.h>
 # include <unistd.h>
-# include <stdbool.h>
+# include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
 
-# define OPTIONAL_TRUE 0x06
-# define ARGUMENT_SUCCESS 0x05
-# define ARGUMENT_ERROR 0x0A
+# define OPTIONAL_TRUE		0x05
+# define ARGUMENT_SUCCESS	0x04
+# define ARGUMENT_ERROR		0x0A
 
+typedef struct s_thread_table	t_thread_table;
 
+t_thread_table	*create_philos_table(int ac, char **av);
+int				*push_back(int n_args, char **av);
+int				collect(int ac);
+int				atoint(char *num);
+
+typedef struct s_thread_table
+{
+	int			n_args;
+	int			optional_argument;
+	int			*vector;
+	pthread_t	*philos_vector;
+}	t_thread_table;
 #endif
