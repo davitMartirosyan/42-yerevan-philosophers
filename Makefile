@@ -16,3 +16,4 @@ $(OBJ_DIR)%.o : %.c
 
 fclean:
 	rm -rf $(OBJ_DIR)
+	rm $(NAME)
