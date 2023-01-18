@@ -1,6 +1,6 @@
 NAME 	= philo
 CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror
+# CFLAGS 	= -Wall -Wextra -Werror
 OBJ_DIR = objs/
 SOURCE 	= $(wildcard *.c)
 OBJS	= $(SOURCE: .c=.o)

@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:09:08 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/17 18:59:31 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:25:25 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,55 @@
 
 int	main(int ac, char **av)
 {
-	int				*args;
+	t_thread_table	*table;
 	int				n_args;
-	t_thread_table	*philos;
 
-	(void)args;
+	(void)table;
 	n_args = collect(ac);
 	if (n_args == ARGUMENT_ERROR)
 	{
 		printf("error\n");
 		return (1);
 	}
-	philos = create_philos_table(ac, av);
-	if (philos)
-		create_threads();
-	else
-		return (-1);
+	table = create_philos_table(ac, av);
+	if (table)
+		init(table);
+	return (-1);
 }
 
 t_thread_table	*create_philos_table(int ac, char **av)
 {
 	t_thread_table	*philos;
 
-	philos = (t_thread_table *)malloc(sizeof(t_thread_table));
-	if (!philos)
-		return (NULL);
+	philos = malloc(sizeof(t_thread_table));
 	philos->n_args = collect(ac);
 	philos->vector = push_back(philos->n_args, av);
 	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
 		philos->optional_argument = philos->vector[philos->n_args - 1];
 	else
 		philos->optional_argument = -1;
-	return (philos);
+	if (create_threads(philos))
+		return (philos);
+	return (NULL);
+}
+
+int	create_threads(t_thread_table *table)
+{
+	int	i;
+
+	i = table->vector[0];
+	while (--i >= 0)
+	{
+		table->philos[i].id = i;
+		table->philos[i].lfork = i;
+		table->philos[i].rfork = (i + 1) % table->vector[0];
+		table->philos[i].thread_table = table;
+	}
+	return (1);
+}
+
+void	init(t_thread_table *table)
+{
+	(void)table;
+	printf("initialization\n");
 }

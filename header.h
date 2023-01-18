@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/17 18:50:34 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:25:00 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,34 @@
 # define ARGUMENT_ERROR		0x0A
 
 typedef struct s_thread_table	t_thread_table;
+typedef struct s_philo			t_philo;
 
 t_thread_table	*create_philos_table(int ac, char **av);
+int				create_threads(t_thread_table *thread);
 int				*push_back(int n_args, char **av);
 int				collect(int ac);
 int				atoint(char *num);
+void			init(t_thread_table *table);
+void			*philosopher(void *threads_table);
+
+typedef struct s_philo
+{
+	int				id;
+	int				lfork;
+	int				rfork;
+	int				iseating;
+	int				issleeping;
+	int				isthinking;
+	int				wasdied;
+	pthread_t		thread_id;
+	t_thread_table	*thread_table;
+}	t_philo;
 
 typedef struct s_thread_table
 {
-	int			n_args;
-	int			optional_argument;
-	int			*vector;
-	pthread_t	*philos_vector;
+	int		n_args;
+	int		optional_argument;
+	int		*vector;
+	t_philo	philos[255];
 }	t_thread_table;
 #endif
