@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/18 17:25:00 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:23:12 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ typedef struct s_philo
 
 typedef struct s_thread_table
 {
-	int		n_args;
-	int		optional_argument;
-	int		*vector;
-	t_philo	philos[255];
+	int				n_args;
+	int				optional_argument;
+	int				*vector;
+	t_philo			philos[255];
+	pthread_mutex_t	forks[255];
+	pthread_mutex_t	mutex_eat;
 }	t_thread_table;
 #endif
