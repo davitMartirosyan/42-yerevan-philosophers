@@ -59,9 +59,10 @@ int	*push_back(int n_args, char **av)
 	vector = malloc(sizeof(int) * (n_args + 1));
 	if (!vector)
 		return (NULL);
-	i = -1;
+	vector[0] = atoint(av[0]);
+	i = 0;
 	while (++i < n_args)
-		vector[i] = atoint(av[i]);
+		vector[i] = atoint(av[i]) * 1000;
 	vector[i] = 0;
 	return (vector);
 }

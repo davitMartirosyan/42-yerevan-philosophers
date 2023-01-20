@@ -17,13 +17,32 @@ void	*philosopher(void *threads_table)
 	t_philo	*philo;
 
 	philo = threads_table;
-	usleep(200);
+	usleep(philo->thread_table->vector[1]);
 	pthread_mutex_lock(&philo->thread_table->mutex_eat);
 	printf("Philosopher %d, started to eat\n", philo->id);
 	printf("left fork : %d\n", philo->lfork);
 	printf("right fork:  %d\n", philo->rfork);
-	usleep(200);
+	usleep(philo->thread_table->vector[2]);
 	printf("Philosopher %d, started to sleep\n\n", philo->id);
 	pthread_mutex_unlock(&philo->thread_table->mutex_eat);
 	return (NULL);
+}
+
+void	init(t_thread_table *table)
+{
+	int	i;
+
+	i = table->vector[0];
+	pthread_mutex_init(&table->mutex_eat, NULL);
+	while (--i >= 0)
+		pthread_create(&table->philos[i].thread_id, NULL, philosopher, \
+		(void *)&table->philos[i]);
+	i = 0;
+
+	while (i <= table->vector[0])
+	{
+		pthread_join(table->philos[i].thread_id, NULL);
+		i++;
+	}
+	pthread_mutex_destroy(&table->mutex_eat);
 }
