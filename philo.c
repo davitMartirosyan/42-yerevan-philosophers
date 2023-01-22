@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:09:08 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/19 16:28:02 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/22 08:07:09 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_thread_table	*create_philos_table(int ac, char **av)
 	philos = malloc(sizeof(t_thread_table));
 	philos->n_args = collect(ac);
 	philos->vector = push_back(philos->n_args, av);
-	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
+	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE)) //0000101 | 0000100 -> 00000101
 		philos->optional_argument = philos->vector[philos->n_args - 1];
 	else
 		philos->optional_argument = -1;
@@ -53,10 +53,18 @@ int	create_threads(t_thread_table *table)
 	i = table->vector[0];
 	while (--i >= 0)
 	{
-		table->philos[i].id = i + 1;
+		table->philos[i].id = i;
 		table->philos[i].lfork = i;
 		table->philos[i].rfork = (i + 1) % table->vector[0];
 		table->philos[i].thread_table = table;
+		table->philos[i].died = 0;
+		//table->philos[i].timeof[0] = table->vector[1];
+		//table->philos[i].timeof[1] = table->vector[2];
+		//table->philos[i].timeof[2] = table->vector[3];
+		table->philos[i].time_to_die = table->vector[1];
+		table->philos[i].time_to_eat = table->vector[2];
+		table->philos[i].time_to_sleep = table->vector[3];
+		table->philos[i].count_of_eating = table->optional_argument;
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/19 16:23:12 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/22 08:31:45 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ typedef struct s_philo
 	int				id;
 	int				lfork;
 	int				rfork;
-	int				iseating;
-	int				issleeping;
-	int				isthinking;
-	int				wasdied;
+	int				died;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	//int				timeof[3];
+	int				last_eat_time;
+	int				count_of_eating;
 	pthread_t		thread_id;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	t_thread_table	*thread_table;
 }	t_philo;
 
