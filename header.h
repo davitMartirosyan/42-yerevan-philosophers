@@ -6,7 +6,7 @@
 /*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/22 08:31:45 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/22 08:34:48 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_thread_table
 	int				optional_argument;
 	int				*vector;
 	t_philo			philos[255];
-	pthread_mutex_t	forks[255];
 	pthread_mutex_t	mutex_eat;
 }	t_thread_table;
 #endif
