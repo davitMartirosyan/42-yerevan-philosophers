@@ -6,7 +6,7 @@
 /*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/22 08:34:48 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:44:58 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,18 @@ typedef struct s_philo			t_philo;
 
 t_thread_table	*create_philos_table(int ac, char **av);
 int				create_threads(t_thread_table *thread);
-int				*push_back(int n_args, char **av);
+int				init_mutexes(t_thread_table *philos);
 int				collect(int ac);
-int				atoint(char *num);
+int				fnd(int *vector, int quantity);
+int				min_fork(int lfork, int rfork);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
+
+/* utils */
+int				*push_back(int n_args, char **av);
+int				atoint(char *num);
+long long		get_now(void);
+long long		get_diff(long long past_time, long long present_time);
 
 typedef struct s_philo
 {
@@ -43,13 +50,11 @@ typedef struct s_philo
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	//int				timeof[3];
-	int				last_eat_time;
+	long long		last_eat_time;
 	int				count_of_eating;
 	pthread_t		thread_id;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	t_thread_table	*thread_table;
+	pthread_mutex_t	*fork;
+	t_thread_table	*table;
 }	t_philo;
 
 typedef struct s_thread_table
@@ -57,7 +62,9 @@ typedef struct s_thread_table
 	int				n_args;
 	int				optional_argument;
 	int				*vector;
+	char			*argument_names[5];
 	t_philo			philos[255];
-	pthread_mutex_t	mutex_eat;
+	pthread_mutex_t	forks[255];
+	pthread_mutex_t	print;
 }	t_thread_table;
 #endif

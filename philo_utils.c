@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:52:12 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/18 17:17:59 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 06:52:57 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,15 @@ int	*push_back(int n_args, char **av)
 		vector[i] = atoint(av[i]) * 1000;
 	vector[i] = 0;
 	return (vector);
+}
+
+int	fnd(int *vector, int quantity)
+{
+	int	i;
+
+	i = -1;
+	while (++i < quantity)
+		if(vector[i] < 1)
+			break;
+	return (i);
 }
