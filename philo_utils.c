@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:52:12 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 06:52:57 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 15:43:55 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	fnd(int *vector, int quantity)
 
 	i = -1;
 	while (++i < quantity)
-		if(vector[i] < 1)
-			break;
+		if (vector[i] < 1)
+			break ;
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:09:44 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 06:56:18 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:41:16 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void	*philosopher(void *table)
 {
-	t_philo	*philo;	
+	t_philo			*philo;
+
 	philo = table;
-	
 	while (1)
 	{
-		if(get_diff(philo->last_eat_time, get_now()) > philo->time_to_sleep)
-			exit(1);
-		printf("%lld : %lld\n", philo->last_eat_time, get_now());
 		pthread_mutex_lock(&philo->fork[min_fork(philo->lfork, philo->rfork)]);
 		
 		pthread_mutex_lock(&philo->table->print);
@@ -37,10 +34,7 @@ void	*philosopher(void *table)
 		
 		usleep(philo->time_to_eat);
 		
-		pthread_mutex_lock(&philo->table->print);
-		pthread_mutex_unlock(&philo->table->print);
 		philo->last_eat_time = get_now();
-		
 		pthread_mutex_unlock(&philo->fork[philo->lfork]);
 		pthread_mutex_unlock(&philo->fork[philo->rfork]);
 		
@@ -59,7 +53,14 @@ void	*philosopher(void *table)
 
 int	min_fork(int lfork, int rfork)
 {
-	if(lfork < rfork)
+	if (lfork < rfork)
+		return (lfork);
+	return (rfork);
+}
+
+int	max_fork(int lfork, int rfork)
+{
+	if (lfork > rfork)
 		return (lfork);
 	return (rfork);
 }
@@ -67,12 +68,10 @@ int	min_fork(int lfork, int rfork)
 long long	get_now(void)
 {
 	struct timeval	smt;
-	
+
 	gettimeofday(&smt, NULL);
-	return ((smt.tv_sec * 1000) + (smt.tv_usec / 1000));
+	return (smt.tv_sec);
 }
-
-
 
 long long	get_diff(long long past_time, long long present_time)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 05:44:58 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:41:32 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				init_mutexes(t_thread_table *philos);
 int				collect(int ac);
 int				fnd(int *vector, int quantity);
 int				min_fork(int lfork, int rfork);
+int				max_fork(int lfork, int rfork);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 
