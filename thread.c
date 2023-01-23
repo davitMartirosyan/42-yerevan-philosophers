@@ -6,7 +6,7 @@
 /*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:09:44 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 06:53:14 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 06:56:18 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ long long	get_now(void)
 	gettimeofday(&smt, NULL);
 	return ((smt.tv_sec * 1000) + (smt.tv_usec / 1000));
 }
+
+
 
 long long	get_diff(long long past_time, long long present_time)
 {
