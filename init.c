@@ -71,6 +71,9 @@ int	create_threads(t_thread_table *table)
 		table->philos[i].time_to_eat = table->vector[2];
 		table->philos[i].time_to_sleep = table->vector[3];
 		table->philos[i].count_of_eating = table->optional_argument;
+		table->philos[i].counter = 0;
+		table->philos[i].last_eat_time = get_now();
+		table->philos[i].starttime = get_now();
 		table->philos[i].table = table;
 		table->philos[i].print = &table->print;
 	}
@@ -84,12 +87,11 @@ void	init(t_thread_table *table)
 
 	i = -1;
 	pthread_mutex_init(&table->print, NULL);
+	
 	while (++i < table->vector[0])
 	{
 		pthread_create(&table->philos[i].thread_id, NULL,
 			philosopher, (void *)&table->philos[i]);
-		gettimeofday(&smt, NULL);
-		table->philos[i].last_eat_time = smt.tv_sec;
 	}
 	i = -1;
 	while (++i < table->vector[0])

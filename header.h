@@ -36,12 +36,14 @@ int				max_fork(int lfork, int rfork);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 void			print(t_philo *philo, char *action);
+void			is_eating(t_philo *philo);
 
 /* utils */
 int				*push_back(int n_args, char **av);
 int				atoint(char *num);
 long long		get_now(void);
 long long		get_diff(long long past_time, long long present_time);
+void			__usleep(int ms);
 
 typedef struct s_philo
 {
@@ -52,8 +54,10 @@ typedef struct s_philo
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	long long		last_eat_time;
 	int				count_of_eating;
+	int				counter;
+	long long		starttime;
+	long long		last_eat_time;
 	pthread_t		thread_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*print;

@@ -18,27 +18,31 @@ void	*philosopher(void *table)
 	struct timeval	smt;
 
 	philo = table;
-	// printf("%ld | %lld | %d\n", smt.tv_usec, philo->last_eat_time, philo->time_to_die);
+	if ((philo->id % 2) != 0)
+		__usleep(1000);
 	while (1)
 	{
-		gettimeofday(&smt, NULL);
-		if ((smt.tv_usec - philo->last_eat_time) > philo->time_to_die)
-			exit(1);
 		pthread_mutex_lock(&philo->fork[min_fork(philo->lfork, philo->rfork)]);
 		print(philo, "has taken a fork");
 		pthread_mutex_lock(&philo->fork[philo->lfork]);
 		print(philo, "has taken a fork");
-		print(philo, "is eating");
-		usleep(philo->time_to_eat);
-		gettimeofday(&smt, NULL);
-		philo->last_eat_time = smt.tv_usec;
+		is_eating(philo);
 		pthread_mutex_unlock(&philo->fork[philo->lfork]);
 		pthread_mutex_unlock(&philo->fork[philo->rfork]);
 		print(philo, "is sleep");
-		usleep(philo->time_to_sleep);
+		__usleep(philo->time_to_sleep);
 		print(philo, "is thinking");
 	}
 	return (NULL);
+}
+
+void	is_eating(t_philo *philo)
+{
+	print(philo, "is eating");
+	__usleep(philo->time_to_eat);
+	if (philo->count_of_eating != -1 && philo->counter != philo->count_of_eating)
+		philo->counter++;
+	philo->last_eat_time = get_now();
 }
 
 int	min_fork(int lfork, int rfork)
@@ -60,17 +64,21 @@ long long	get_now(void)
 	struct timeval	smt;
 
 	gettimeofday(&smt, NULL);
-	return (smt.tv_usec);
-}
-
-long long	get_diff(long long past_time, long long present_time)
-{
-	return (present_time - past_time);
+	return ((smt.tv_sec * 1000) + (smt.tv_usec / 1000));
 }
 
 void	print(t_philo *philo, char *action)
 {
 	pthread_mutex_lock(philo->print);
-	printf("Philosopher %d : %s\n", philo->id, action);
+	printf("[%lld] Philosopher %d : %s\n", get_now() - philo->starttime, philo->id, action);
 	pthread_mutex_unlock(philo->print);
+}
+
+void	__usleep(int ms)
+{
+	long long	_sleep;
+
+	_sleep = get_now();
+	while((get_now() - _sleep) < ms )
+		;
 }
