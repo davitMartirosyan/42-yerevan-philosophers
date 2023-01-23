@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 16:41:32 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:14:44 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int				min_fork(int lfork, int rfork);
 int				max_fork(int lfork, int rfork);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
+void			print(t_philo *philo, char *action);
 
 /* utils */
 int				*push_back(int n_args, char **av);
@@ -55,6 +56,7 @@ typedef struct s_philo
 	int				count_of_eating;
 	pthread_t		thread_id;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	*print;
 	t_thread_table	*table;
 }	t_philo;
 

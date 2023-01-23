@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 02:26:37 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 15:44:30 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:59:23 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	init_mutexes(t_thread_table *philos)
 int	create_threads(t_thread_table *table)
 {
 	int				i;
-	struct timeval	smt;
 
 	i = -1;
 	while (++i < table->vector[0])
@@ -73,15 +72,15 @@ int	create_threads(t_thread_table *table)
 		table->philos[i].time_to_sleep = table->vector[3];
 		table->philos[i].count_of_eating = table->optional_argument;
 		table->philos[i].table = table;
-		gettimeofday(&smt, NULL);
-		table->philos[i].last_eat_time = smt.tv_usec;
+		table->philos[i].print = &table->print;
 	}
 	return (0);
 }
 
 void	init(t_thread_table *table)
 {
-	int	i;
+	int				i;
+	struct timeval	smt;
 
 	i = -1;
 	pthread_mutex_init(&table->print, NULL);
@@ -89,6 +88,8 @@ void	init(t_thread_table *table)
 	{
 		pthread_create(&table->philos[i].thread_id, NULL,
 			philosopher, (void *)&table->philos[i]);
+		gettimeofday(&smt, NULL);
+		table->philos[i].last_eat_time = smt.tv_sec;
 	}
 	i = -1;
 	while (++i < table->vector[0])
