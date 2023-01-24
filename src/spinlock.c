@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   spinlock.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:09:08 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 15:45:35 by dmartiro         ###   ########.fr       */
+/*   Created: 2023/01/24 13:19:36 by dmartiro          #+#    #+#             */
+/*   Updated: 2023/01/24 14:01:50 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	main(int ac, char **av)
+int	min_fork(int lfork, int rfork)
 {
-	t_thread_table	*table;
-	int				n_args;
-
-	(void)table;
-	n_args = collect(ac);
-	if (n_args == ARGUMENT_ERROR)
-	{
-		printf("error\n");
-		return (1);
-	}
-	table = create_philos_table(ac, av);
-	if (table)
-		init(table);
-	return (-1);
+	if (lfork < rfork)
+		return (lfork);
+	return (rfork);
 }
-//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
+
+int	max_fork(int lfork, int rfork)
+{
+	if (lfork > rfork)
+		return (lfork);
+	return (rfork);
+}
+
+long long	get_now(void)
+{
+	struct timeval	smt;
+
+	gettimeofday(&smt, NULL);
+	return ((smt.tv_sec * 1000) + (smt.tv_usec / 1000));
+}

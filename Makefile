@@ -1,19 +1,16 @@
 NAME 	= philo
 CC 		= gcc
-# CFLAGS 	= -Wall -Wextra -Werror
-OBJ_DIR = objs/
-SOURCE 	= $(wildcard *.c)
+CFLAGS 	= -Wall -Wextra -Werror
+SRC_DIR = src/
+SOURCE 	= $(wildcard $(SRC_DIR)*.c)
 OBJS	= $(SOURCE: .c=.o)
 
 all:$(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) -I ./ $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJ_DIR)%.o : %.c
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS)  -pthread -c $< -o $@
-
-fclean:
-	rm -rf $(OBJ_DIR)
-	rm $(NAME)
+re: fclean all
+	
+fclean: 
+	@rm -f $(NAME)

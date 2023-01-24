@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 18:14:44 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:06:29 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void			is_eating(t_philo *philo);
 int				*push_back(int n_args, char **av);
 int				atoint(char *num);
 long long		get_now(void);
-long long		get_diff(long long past_time, long long present_time);
 void			__usleep(int ms);
+
+/* error handling*/
+int				invalid_arguments(t_thread_table *philos);
 
 typedef struct s_philo
 {

@@ -6,25 +6,11 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:52:12 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 15:43:55 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:06:50 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int	collect(int ac)
-{
-	int	count_of_args;
-
-	count_of_args = 0;
-	if (ac == 6)
-		count_of_args = (ARGUMENT_SUCCESS | OPTIONAL_TRUE);
-	else if (ac == 5)
-		count_of_args = ARGUMENT_SUCCESS;
-	else if (ac > 6 || ac < 5)
-		count_of_args = (int)ARGUMENT_ERROR;
-	return (count_of_args);
-}
 
 int	atoint(char *num)
 {
@@ -76,4 +62,40 @@ int	fnd(int *vector, int quantity)
 		if (vector[i] < 1)
 			break ;
 	return (i);
+}
+
+void	print(t_philo *philo, char *action)
+{
+	pthread_mutex_lock(philo->print);
+	printf("[%lld] Philosopher %d : %s\n", \
+	(get_now() - philo->starttime), philo->id, action);
+	pthread_mutex_unlock(philo->print);
+}
+
+int	invalid_arguments(t_thread_table *philos)
+{
+	char	*invalid[5];
+	int		i;
+
+	invalid[0] = "Philosophers";
+	invalid[1] = "Time_To_Die";
+	invalid[2] = "Time_To_Eat";
+	invalid[3] = "Time_To_Sleep";
+	invalid[4] = "Must_To_Eat";
+	if (philos->vector[0] < 2 || philos->vector[0] > 200)
+	{
+		printf("Invalid Arguments: <%s> Must in range 2 to 200\n", invalid[0]);
+		return (1);
+	}
+	i = -1;
+	while (++i < philos->n_args)
+	{
+		if (philos->vector[i] < 1)
+		{
+			printf("Invalid Arguments: count of <%s> must greather than [%d]\n", \
+				invalid[i], philos->vector[i]);
+			return (1);
+		}
+	}
+	return (0);
 }

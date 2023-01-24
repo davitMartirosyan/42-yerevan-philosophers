@@ -6,7 +6,7 @@
 /*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 02:26:37 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/23 18:59:23 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:50:05 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,10 @@
 t_thread_table	*create_philos_table(int ac, char **av)
 {
 	t_thread_table	*philos;
-	char			*vars;
 
-	vars = "Philosophers:Time_To_Die:Time_To_Eat:Time_To_Sleep:Must_To_Eat";
 	philos = malloc(sizeof(t_thread_table));
 	philos->n_args = collect(ac);
 	philos->vector = push_back(philos->n_args, av);
-	if (philos->vector[0] < 2)
-	{
-		printf("Invalid Arguments: The Count of <%s> Must greather than %d\n",
-			philos->argument_names[0], philos->vector[0]);
-		return (NULL);
-	}
-	if (philos->vector[1] < 0 || philos->vector[2] < 0
-		|| philos->vector[3] < 0
-		|| (philos->vector[4] && philos->vector[4] < 0))
-	{
-		printf("Invalid Arguments: The Count of <%s> Must greather than %d\n",
-			philos->argument_names[fnd(philos->vector, philos->n_args)],
-			philos->vector[fnd(philos->vector, philos->n_args)]);
-		return (NULL);
-	}
 	philos->optional_argument = -1;
 	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
 		philos->optional_argument = philos->vector[philos->n_args - 1];
@@ -74,7 +57,6 @@ int	create_threads(t_thread_table *table)
 		table->philos[i].counter = 0;
 		table->philos[i].last_eat_time = get_now();
 		table->philos[i].starttime = get_now();
-		table->philos[i].table = table;
 		table->philos[i].print = &table->print;
 	}
 	return (0);
@@ -83,11 +65,9 @@ int	create_threads(t_thread_table *table)
 void	init(t_thread_table *table)
 {
 	int				i;
-	struct timeval	smt;
 
 	i = -1;
 	pthread_mutex_init(&table->print, NULL);
-	
 	while (++i < table->vector[0])
 	{
 		pthread_create(&table->philos[i].thread_id, NULL,
@@ -97,4 +77,13 @@ void	init(t_thread_table *table)
 	while (++i < table->vector[0])
 		pthread_join(table->philos[i].thread_id, NULL);
 	pthread_mutex_destroy(&table->print);
+}
+
+void	__usleep(int ms)
+{
+	long long	_sleep;
+
+	_sleep = get_now();
+	while ((get_now() - _sleep) < ms)
+		;
 }
