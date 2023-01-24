@@ -1,7 +1,7 @@
 
 # Dining Philosophers
 
-A Classic Problem - Dining Philosophers
+### A Classic Problem - Dining Philosophers
 The Dining Philosophers problem is a classic OS problem that’s usuallu stated in very non-OS terms:
 There are N philosphers sitting around a circular table eating spaghetti and discussing philos-
 phy. The problem is that each philosopher needs 2 forks to eat, and there are only N forks, one
