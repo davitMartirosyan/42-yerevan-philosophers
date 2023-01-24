@@ -21,7 +21,7 @@ they don’t eat or sleep; and, of course, while sleeping, they do not eat or th
  - [42-school philosophers project (Youtube (ru))](https://www.youtube.com/watch?v=WzsPbwIwtiw&t=4808s)
 
 
-![philosophers](https://github.com/davitmartirosyan/42-yerevan-philosophers/philos.png?raw=true)
+![philos.png](https://github.com/davitmartirosyan/42-yerevan-philosophers/philos.png?raw=true)
 ## Instalation
 
 To run philosophers try to make first all object files
