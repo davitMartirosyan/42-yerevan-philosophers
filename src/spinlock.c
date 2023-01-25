@@ -33,3 +33,12 @@ long long	get_now(void)
 	gettimeofday(&smt, NULL);
 	return ((smt.tv_sec * 1000) + (smt.tv_usec / 1000));
 }
+
+void	__usleep(int ms)
+{
+	long long	_sleep;
+
+	_sleep = get_now();
+	while ((get_now() - _sleep) < ms)
+		;
+}

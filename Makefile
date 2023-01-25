@@ -13,7 +13,7 @@ $(NAME) : $(OBJS)
 re: fclean all
 
 push:
-	bash git.sh "Day 08"
+	bash git.sh $(ARG)
 
 fclean: 
 	@rm -f $(NAME)

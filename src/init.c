@@ -32,87 +32,78 @@ int	init_mutexes(t_thread_table *philos)
 	int	i;
 
 	i = -1;
+	pthread_mutex_init(&philos->print, NULL);
+	pthread_mutex_init(&philos->check_dead, NULL);
 	while (++i < philos->vector[0])
 		if (pthread_mutex_init(&philos->forks[i], NULL))
 			return (1);
 	return (0);
 }
 
-int	create_threads(t_thread_table *table)
-{
-	int				i;
-
-	i = -1;
-	while (++i < table->vector[0])
-	{
-		table->philos[i].id = i + 1;
-		table->philos[i].lfork = (i + 1) % table->vector[0];
-		table->philos[i].rfork = i;
-		table->philos[i].died = 0;
-		table->philos[i].fork = table->forks;
-		table->philos[i].time_to_die = table->vector[1];
-		table->philos[i].time_to_eat = table->vector[2];
-		table->philos[i].time_to_sleep = table->vector[3];
-		table->philos[i].count_of_eating = table->optional_argument;
-		table->philos[i].counter = 0;
-		table->philos[i].last_eat_time = get_now();
-		table->philos[i].starttime = get_now();
-		table->philos[i].print = &table->print;
-	}
-	return (0);
-}
-
 void	init(t_thread_table *table)
 {
 	int	i;
+	int	c;
 
 	i = -1;
-	pthread_mutex_init(&table->print, NULL);
-	pthread_mutex_init(&table->check_dead, NULL);
 	while (++i < table->vector[0])
-		pthread_create(&table->philos[i].thread_id, NULL,
-			philosopher, (void *)&table->philos[i]);
-	__is_dead(table);
-	__exit(table);
+	{
+		pthread_create(&table->philos[i].thread_id, NULL, philosopher, (void *)&table->philos[i]);
+		pthread_detach(table->philos[i].thread_id);
+	}
+	while(1)
+	{
+		c = -1;
+		while (++c < table->vector[0])
+		{
+			if ((get_now() - table->philos[c].last_eat_time) > table->philos[c].time_to_die)
+			{
+				printf("%lld : %lld\n", table->philos[c].last_eat_time, get_now());
+				print(&table->philos[c], "was died");
+				return ;
+			}
+		}
+	}
+	i = -1;
+	while (++i < table->vector[0])
+		pthread_mutex_destroy(&table->forks[i]);
+	pthread_mutex_destroy(&table->print);
+	pthread_mutex_destroy(&table->check_dead);
 	return ;
 }
 
-void __is_dead(t_thread_table *table)
+void	__is_dead(t_thread_table *table)
 {
 	int	i;
 
-	i = -1;
-	while (++i < table->vector[0] && !table->philos[i].died)
+	while (1)
 	{
-		pthread_mutex_lock(&table->check_dead);
-		if((get_now() - table->philos[i].last_eat_time) > table->philos[i].time_to_die)
+		i = -1;
+		while (++i < table->vector[0])
 		{
-			print(&table->philos[i], "was died");
-			table->philos[i].died = 1;
+			pthread_mutex_lock(&table->check_dead);
+			if ((get_now() - table->philos[i].last_eat_time) > table->philos[i].time_to_die)
+			{
+				print(&table->philos[i], "\n\n\n\n\n\nwas died\n\n\n\n\n\n\n");
+				table->philos[i].died = 1;
+				return ;
+			}
+			pthread_mutex_unlock(&table->check_dead);
 		}
-		pthread_mutex_unlock(&table->check_dead);
 	}
 }
 
 void	__exit(t_thread_table *table)
 {
 	int	i;
+	int	c;
 
-	i = -1;
-	while (++i < table->vector[0])
-		pthread_join(table->philos[i].thread_id, NULL);
+	c = -1;
+	while (++c < table->vector[0])
+		pthread_join(table->philos[c].thread_id, NULL);
 	i = -1;
 	while (++i < table->vector[0])
 		pthread_mutex_destroy(&table->forks[i]);
 	pthread_mutex_destroy(&table->print);
 	pthread_mutex_destroy(&table->check_dead);
-}
-
-void	__usleep(int ms)
-{
-	long long	_sleep;
-
-	_sleep = get_now();
-	while ((get_now() - _sleep) < ms)
-		;
 }
