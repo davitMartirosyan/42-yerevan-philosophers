@@ -27,26 +27,24 @@ typedef struct s_thread_table	t_thread_table;
 typedef struct s_philo			t_philo;
 
 t_thread_table	*create_philos_table(int ac, char **av);
+long long		get_now(void);
+int				*push_back(int n_args, char **av);
+int				is_digit(char *s);
+int				atoint(char *num);
+int				invalid_arguments(t_thread_table *philos);
 int				create_threads(t_thread_table *thread);
 int				init_mutexes(t_thread_table *philos);
 int				collect(int ac);
 int				fnd(int *vector, int quantity);
 int				min_fork(int lfork, int rfork);
 int				max_fork(int lfork, int rfork);
+int				check_threads(t_thread_table *table);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 void			print(t_philo *philo, char *action);
 void			is_eating(t_philo *philo);
 void			__exit(t_thread_table *table);
-
-/* utils */
-int				*push_back(int n_args, char **av);
-int				atoint(char *num);
-long long		get_now(void);
 void			__usleep(int ms);
-
-/* error handling*/
-int				invalid_arguments(t_thread_table *philos);
 
 typedef struct s_philo
 {
@@ -61,7 +59,6 @@ typedef struct s_philo
 	int				counter;
 	long long		starttime;
 	long long		last_eat_time;
-	struct timeval	last_eat;
 	pthread_t		thread_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*print;

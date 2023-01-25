@@ -49,9 +49,19 @@ void	init(t_thread_table *table)
 	while (++i < table->vector[0])
 		pthread_create(&table->philos[i].thread_id, NULL,
 			philosopher, (void *)&table->philos[i]);
-	c = -1;
-	while (++c < table->vector[0])
-		pthread_join(table->philos[c].thread_id, NULL);
+	while (1)
+	{
+		c = -1;
+		while (++c < table->vector[0])
+		{
+			if ((get_now() - table->philos[c].last_eat_time) > table->vector[1])
+			{
+				print(&table->philos[c], "was died");
+				pthread_detach(table->philos[c].thread_id);
+				return ;
+			}
+		}
+	}
 	__exit(table);
 	return ;
 }

@@ -18,10 +18,10 @@ void	*philosopher(void *table)
 
 	philo = table;
 	if ((philo->id % 2) != 0)
-		__usleep(1000);
+		usleep(100);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->fork[min_fork(philo->lfork, philo->rfork)]);
+		pthread_mutex_lock(&philo->fork[philo->rfork]);
 		print(philo, "has taken a fork");
 		pthread_mutex_lock(&philo->fork[philo->lfork]);
 		print(philo, "has taken a fork");
@@ -35,14 +35,22 @@ void	*philosopher(void *table)
 	return (NULL);
 }
 
+void	print(t_philo *philo, char *action)
+{
+	pthread_mutex_lock(philo->print);
+	printf("[%lld] Philosopher %d : %s\n", \
+	(get_now() - philo->starttime), philo->id, action);
+	pthread_mutex_unlock(philo->print);
+}
+
 void	is_eating(t_philo *philo)
 {
+	philo->last_eat_time = get_now();
 	print(philo, "is eating");
 	__usleep(philo->time_to_eat);
 	if (philo->count_of_eating != -1
 		&& philo->counter != philo->count_of_eating)
 		philo->counter++;
-	philo->last_eat_time = get_now();
 }
 
 int	create_threads(t_thread_table *table)

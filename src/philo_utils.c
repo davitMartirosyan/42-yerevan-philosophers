@@ -12,6 +12,24 @@
 
 #include "header.h"
 
+int	is_digit(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	if (!s[i])
+		return (1);
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	atoint(char *num)
 {
 	int	i;
@@ -21,6 +39,8 @@ int	atoint(char *num)
 	i = 0;
 	sign = 1;
 	toint = 0;
+	if (is_digit(num))
+		return (-1);
 	while (num[i] == 32 || (num[i] > 10 && num[i] < 14))
 		i++;
 	if (num[i] == '-' || num[i] == '+')
@@ -64,14 +84,6 @@ int	fnd(int *vector, int quantity)
 	return (i);
 }
 
-void	print(t_philo *philo, char *action)
-{
-	pthread_mutex_lock(philo->print);
-	printf("[%lld] Philosopher %d : %s\n", \
-	(get_now() - philo->starttime), philo->id, action);
-	pthread_mutex_unlock(philo->print);
-}
-
 int	invalid_arguments(t_thread_table *philos)
 {
 	char	*invalid[5];
@@ -82,7 +94,7 @@ int	invalid_arguments(t_thread_table *philos)
 	invalid[2] = "Time_To_Eat";
 	invalid[3] = "Time_To_Sleep";
 	invalid[4] = "Must_To_Eat";
-	if (philos->vector[0] < 2 || philos->vector[0] > 200)
+	if (philos->vector[0] < 1 || philos->vector[0] > 200)
 	{
 		printf("Invalid Arguments: <%s> Must in range 2 to 200\n", invalid[0]);
 		return (1);

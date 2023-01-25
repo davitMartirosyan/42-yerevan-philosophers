@@ -25,8 +25,9 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	table = create_philos_table(ac, av);
-	if (table && !invalid_arguments(table))
-		init(table);
+	if (!table || invalid_arguments(table))
+		return (-1);
+	init(table);
 	return (-1);
 }
 
