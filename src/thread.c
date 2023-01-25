@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:09:44 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/24 13:50:14 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:31:32 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ void	*philosopher(void *table)
 	philo = table;
 	if ((philo->id % 2) != 0)
 		__usleep(1000);
-	while (!philo->died)
+	while (1)
 	{
-		printf("%d -> %lld : %lld : [%d]\n", philo->id, philo->last_eat_time, get_now(), philo->time_to_die);
 		pthread_mutex_lock(&philo->fork[min_fork(philo->lfork, philo->rfork)]);
 		print(philo, "has taken a fork");
 		pthread_mutex_lock(&philo->fork[philo->lfork]);
@@ -48,7 +47,7 @@ void	is_eating(t_philo *philo)
 
 int	create_threads(t_thread_table *table)
 {
-	int				i;
+	int	i;
 
 	i = -1;
 	while (++i < table->vector[0])

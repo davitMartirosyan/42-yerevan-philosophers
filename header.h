@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmartiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmartiro <dmartiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:12:31 by dmartiro          #+#    #+#             */
-/*   Updated: 2023/01/24 13:06:29 by dmartiro         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:31:17 by dmartiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 void			print(t_philo *philo, char *action);
 void			is_eating(t_philo *philo);
-void			__is_dead(t_thread_table *table);
 void			__exit(t_thread_table *table);
 
 /* utils */
@@ -66,7 +65,6 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*print;
-	t_thread_table	*table;
 }	t_philo;
 
 typedef struct s_thread_table
@@ -75,9 +73,9 @@ typedef struct s_thread_table
 	int				optional_argument;
 	int				*vector;
 	char			*argument_names[5];
+	int				died;
 	t_philo			philos[255];
 	pthread_mutex_t	forks[255];
 	pthread_mutex_t	print;
-	pthread_mutex_t	check_dead;
 }	t_thread_table;
 #endif

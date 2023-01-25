@@ -8,7 +8,7 @@ OBJS	= $(SOURCE: .c=.o)
 all:$(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) -I ./ $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) -I ./  -pthread $(CFLAGS) $(OBJS) -o $(NAME)
 
 re: fclean all
 
