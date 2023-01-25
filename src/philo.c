@@ -44,3 +44,18 @@ int	collect(int ac)
 		count_of_args = (int)ARGUMENT_ERROR;
 	return (count_of_args);
 }
+
+t_thread_table	*create_philos_table(int ac, char **av)
+{
+	t_thread_table	*philos;
+
+	philos = malloc(sizeof(t_thread_table));
+	philos->n_args = collect(ac);
+	philos->vector = push_back(philos->n_args, av);
+	philos->optional_argument = -1;
+	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
+		philos->optional_argument = philos->vector[philos->n_args - 1];
+	if (!create_threads(philos))
+		return (philos);
+	return (NULL);
+}

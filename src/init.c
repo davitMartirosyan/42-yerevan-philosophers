@@ -12,21 +12,6 @@
 
 #include "header.h"
 
-t_thread_table	*create_philos_table(int ac, char **av)
-{
-	t_thread_table	*philos;
-
-	philos = malloc(sizeof(t_thread_table));
-	philos->n_args = collect(ac);
-	philos->vector = push_back(philos->n_args, av);
-	philos->optional_argument = 0;
-	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
-		philos->optional_argument = philos->vector[philos->n_args - 1];
-	if (!create_threads(philos))
-		return (philos);
-	return (NULL);
-}
-
 int	init_mutexes(t_thread_table *philos)
 {
 	int	i;
@@ -42,15 +27,32 @@ int	init_mutexes(t_thread_table *philos)
 void	init(t_thread_table *table)
 {
 	int	i;
-	int	c;
 
 	i = -1;
 	init_mutexes(table);
 	while (++i < table->vector[0])
 		pthread_create(&table->philos[i].thread_id, NULL,
 			philosopher, (void *)&table->philos[i]);
+	if (check_threads(table))
+	{
+		__exit(table);
+		return ;
+	}
+	return ;
+}
+
+int	check_threads(t_thread_table *table)
+{
+	int	c;
+
 	while (1)
 	{
+		if (table->optional_argument != -1 && check_all_ate(table) != -1)
+		{
+			pthread_mutex_lock(&table->print);
+			printf("Simulation Stopped!\n");
+			return (1);
+		}
 		c = -1;
 		while (++c < table->vector[0])
 		{
@@ -58,12 +60,24 @@ void	init(t_thread_table *table)
 			{
 				print(&table->philos[c], "was died");
 				pthread_detach(table->philos[c].thread_id);
-				return ;
+				return (1);
 			}
 		}
 	}
-	__exit(table);
-	return ;
+	return (0);
+}
+
+int	check_all_ate(t_thread_table *table)
+{
+	int	i;
+
+	i = -1;
+	while (++i < table->vector[0])
+	{
+		if (table->philos[i].counter < table->optional_argument)
+			return (-1);
+	}
+	return (0);
 }
 
 void	__exit(t_thread_table *table)

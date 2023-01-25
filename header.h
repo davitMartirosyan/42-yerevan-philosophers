@@ -39,6 +39,7 @@ int				fnd(int *vector, int quantity);
 int				min_fork(int lfork, int rfork);
 int				max_fork(int lfork, int rfork);
 int				check_threads(t_thread_table *table);
+int				check_all_ate(t_thread_table *table);
 void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 void			print(t_philo *philo, char *action);
