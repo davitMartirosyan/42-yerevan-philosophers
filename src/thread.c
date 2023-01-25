@@ -19,7 +19,7 @@ void	*philosopher(void *table)
 	philo = table;
 	if ((philo->id % 2) != 0)
 		__usleep(1000);
-	while (1)
+	while (philo->died == 0)
 	{
 		pthread_mutex_lock(&philo->fork[min_fork(philo->lfork, philo->rfork)]);
 		print(philo, "has taken a fork");

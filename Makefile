@@ -11,6 +11,9 @@ $(NAME) : $(OBJS)
 	$(CC) -I ./ $(CFLAGS) $(OBJS) -o $(NAME)
 
 re: fclean all
-	
+
+push:
+	bash git.sh "Day 08"
+
 fclean: 
 	@rm -f $(NAME)

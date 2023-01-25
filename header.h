@@ -37,6 +37,8 @@ void			init(t_thread_table *table);
 void			*philosopher(void *threads_table);
 void			print(t_philo *philo, char *action);
 void			is_eating(t_philo *philo);
+void			__is_dead(t_thread_table *table);
+void			__exit(t_thread_table *table);
 
 /* utils */
 int				*push_back(int n_args, char **av);
@@ -60,6 +62,7 @@ typedef struct s_philo
 	int				counter;
 	long long		starttime;
 	long long		last_eat_time;
+	struct timeval	last_eat;
 	pthread_t		thread_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*print;
@@ -75,5 +78,6 @@ typedef struct s_thread_table
 	t_philo			philos[255];
 	pthread_mutex_t	forks[255];
 	pthread_mutex_t	print;
+	pthread_mutex_t	check_dead;
 }	t_thread_table;
 #endif

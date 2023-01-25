@@ -19,7 +19,7 @@ t_thread_table	*create_philos_table(int ac, char **av)
 	philos = malloc(sizeof(t_thread_table));
 	philos->n_args = collect(ac);
 	philos->vector = push_back(philos->n_args, av);
-	philos->optional_argument = -1;
+	philos->optional_argument = 0;
 	if (philos->n_args == (ARGUMENT_SUCCESS | OPTIONAL_TRUE))
 		philos->optional_argument = philos->vector[philos->n_args - 1];
 	if (!init_mutexes(philos) && !create_threads(philos))
@@ -64,19 +64,48 @@ int	create_threads(t_thread_table *table)
 
 void	init(t_thread_table *table)
 {
-	int				i;
+	int	i;
 
 	i = -1;
 	pthread_mutex_init(&table->print, NULL);
+	pthread_mutex_init(&table->check_dead, NULL);
 	while (++i < table->vector[0])
-	{
 		pthread_create(&table->philos[i].thread_id, NULL,
 			philosopher, (void *)&table->philos[i]);
+	__is_dead(table);
+	__exit(table);
+	return ;
+}
+
+void __is_dead(t_thread_table *table)
+{
+	int	i;
+
+	i = -1;
+	while (++i < table->vector[0] && !table->philos[i].died)
+	{
+		pthread_mutex_lock(&table->check_dead);
+		if((get_now() - table->philos[i].last_eat_time) > table->philos[i].time_to_die)
+		{
+			print(&table->philos[i], "was died");
+			table->philos[i].died = 1;
+		}
+		pthread_mutex_unlock(&table->check_dead);
 	}
+}
+
+void	__exit(t_thread_table *table)
+{
+	int	i;
+
 	i = -1;
 	while (++i < table->vector[0])
 		pthread_join(table->philos[i].thread_id, NULL);
+	i = -1;
+	while (++i < table->vector[0])
+		pthread_mutex_destroy(&table->forks[i]);
 	pthread_mutex_destroy(&table->print);
+	pthread_mutex_destroy(&table->check_dead);
 }
 
 void	__usleep(int ms)
